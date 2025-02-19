@@ -96,7 +96,7 @@ def isIsomorphic(s: str, t: str) -> bool:
         letters_t[t[i]] = s[i]
     return True
 
-def maxProfit(prices: list[int]) -> int:
+def maxProfit_1(prices: list[int]) -> int:
     max_profit = 0
     i = 0
     j = 1
@@ -417,23 +417,21 @@ def candy(ratings: list[int]) -> int:
         candy_count+=count        
     return candy_count
 
+# Q122 - M
+def maxProfit_2(prices: list[int]) -> int:
+    if len(prices) == 1: return 0
+    total_p = 0
+    i = 0
+    while i < len(prices)-1:
+        curren_p = prices[i+1]-prices[i]
+        if curren_p > 0:
+            total_p += curren_p
+        i+=1
+    return total_p
 
-c1 = [1,0,2]
-c2 = [1,2,2]
-c3 = [1,3,2,2,1]
-c4 = [1,2,3,3,3,2,1]
-c5 = [1,3,4,5,2]
-print(candy(c1))
-print(candy(c2))
-print(candy(c3))
-print(candy(c4))
-print(candy(c5))
-# g1 = [1,2,3,4,5]
-# c1 = [3,4,5,1,2]
-# g2 = [3,1,1]
-# c2 = [1,2,2]
-# g3 = [0,0,0,0,2]
-# c3 = [0,0,0,0,2]
-# print(canCompleteCircuit(g1,c1))
-# print(canCompleteCircuit(g2,c2))
-# print(canCompleteCircuit(g3,c3))
+p1 = [7,1,5,3,6,4]
+p2 = [1,2,3,4,5]
+p3 = [7,6,4,3,1]
+print(maxProfit_2(p1))
+print(maxProfit_2(p2))
+print(maxProfit_2(p3))
