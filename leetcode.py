@@ -429,9 +429,78 @@ def maxProfit_2(prices: list[int]) -> int:
         i+=1
     return total_p
 
-p1 = [7,1,5,3,6,4]
-p2 = [1,2,3,4,5]
-p3 = [7,6,4,3,1]
-print(maxProfit_2(p1))
-print(maxProfit_2(p2))
-print(maxProfit_2(p3))
+# Q13 - E
+def romanToInt(s: str) -> int:
+    value_convert = {
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000}
+    n = 0
+    i = 0
+    while i < len(s)-1:
+        cur, next = value_convert.get(s[i]), value_convert.get(s[i+1])
+        if cur < next:
+            n += next - cur
+            i+=2
+        else:
+            n += cur
+            i+=1
+    if i < len(s):
+        v = value_convert.get(s[i])
+        n+=v
+    return n
+
+# Q12 - M
+def intToRoman(num: int) -> str:
+    value_convert = {
+        1: 'I',
+        5: 'V',
+        10: 'X',
+        50: 'L',
+        100: 'C',
+        500: 'D',
+        1000: 'M'}
+    s = ''
+    digit_len = int(str(math.log10(num) + 1).split('.')[0])
+    for i in range(1, digit_len):
+        pass
+
+
+def hIndex(citations: list[int]) -> int:
+    # sum = 0
+    # for citation in citations:
+    #     sum+=citation
+    # if sum < 2:
+    #     return sum
+    i = 0
+    h = 0
+    count_to_h = 0
+    while h <= len(citations) and i < len(citations):
+        if citations[i] >= h:
+            count_to_h+=1
+        if count_to_h >= h:
+            i = -1
+            h+=1
+            count_to_h = 0
+        if i == len(citations)-1:
+            return h-1
+        i+=1
+    return h-1
+    
+
+
+
+c1 = [3,0,6,1,5]
+c2 = [1,3,1]
+c3 = [0,1]
+c4 = [1]
+c5 = [5,5,5,5,5]
+print(hIndex(c1))
+print(hIndex(c2))
+print(hIndex(c3))
+print(hIndex(c4))
+print(hIndex(c5))
