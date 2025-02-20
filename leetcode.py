@@ -456,6 +456,7 @@ def romanToInt(s: str) -> int:
 
 # Q12 - M
 def intToRoman(num: int) -> str:
+    value_list = [1,5,10,50,100,500,1000]
     value_convert = {
         1: 'I',
         5: 'V',
@@ -468,31 +469,28 @@ def intToRoman(num: int) -> str:
     digit_len = int(str(math.log10(num) + 1).split('.')[0])
     for i in range(1, digit_len+1):
         i_digit = num % (10**i)
-        if i_digit == 0: continue
-        # print(i_digit)
+        print(s, i_digit)
+        if i_digit == 0:
+            continue
+        f = value_convert.get(i_digit)
+        if f:
+            s = f + s
         # if i_digit is - 4,9,40,90,400,900
-        if value_convert.get(i_digit + 10**(i-1)):
+        elif value_convert.get(i_digit + 10**(i-1)):
             sub_1 = value_convert.get(10**(i-1))
             sub_2 = value_convert.get(i_digit + 10**(i-1))
             s = (sub_1+sub_2) + s
-            print(s)
         else:
             tmp = i_digit
-            while not value_convert.get(tmp):
-                tmp-=1
-            r_1 = value_convert.get(tmp)
-            tmp = i_digit - tmp
-            tmp_2 = tmp
-            if tmp != 0:
-                while tmp!= (10**(i-1)):
-                    tmp-=(10**(i-1))
-                r_2 = value_convert.get(tmp)
-                s = (tmp_2//(10**(i-1)) * r_2) + s
-            s = r_1 + s
+            while tmp != 10**(i-1) and not value_convert.get(tmp) :
+                part_num = value_convert.get(10**(i-1))
+                s = part_num + s
+                tmp -= 10**(i-1)
+            s = value_convert.get(tmp) + s
         num-=i_digit
     return s
 
-print(intToRoman(10))
+print(intToRoman(11))
 
 # Q274 - M
 def hIndex(citations: list[int]) -> int:
