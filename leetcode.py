@@ -466,16 +466,36 @@ def intToRoman(num: int) -> str:
         1000: 'M'}
     s = ''
     digit_len = int(str(math.log10(num) + 1).split('.')[0])
-    for i in range(1, digit_len):
-        pass
+    for i in range(1, digit_len+1):
+        i_digit = num % (10**i)
+        if i_digit == 0: continue
+        # print(i_digit)
+        # if i_digit is - 4,9,40,90,400,900
+        if value_convert.get(i_digit + 10**(i-1)):
+            sub_1 = value_convert.get(10**(i-1))
+            sub_2 = value_convert.get(i_digit + 10**(i-1))
+            s = (sub_1+sub_2) + s
+            print(s)
+        else:
+            tmp = i_digit
+            while not value_convert.get(tmp):
+                tmp-=1
+            r_1 = value_convert.get(tmp)
+            tmp = i_digit - tmp
+            tmp_2 = tmp
+            if tmp != 0:
+                while tmp!= (10**(i-1)):
+                    tmp-=(10**(i-1))
+                r_2 = value_convert.get(tmp)
+                s = (tmp_2//(10**(i-1)) * r_2) + s
+            s = r_1 + s
+        num-=i_digit
+    return s
 
+print(intToRoman(10))
 
+# Q274 - M
 def hIndex(citations: list[int]) -> int:
-    # sum = 0
-    # for citation in citations:
-    #     sum+=citation
-    # if sum < 2:
-    #     return sum
     i = 0
     h = 0
     count_to_h = 0
@@ -491,16 +511,3 @@ def hIndex(citations: list[int]) -> int:
         i+=1
     return h-1
     
-
-
-
-c1 = [3,0,6,1,5]
-c2 = [1,3,1]
-c3 = [0,1]
-c4 = [1]
-c5 = [5,5,5,5,5]
-print(hIndex(c1))
-print(hIndex(c2))
-print(hIndex(c3))
-print(hIndex(c4))
-print(hIndex(c5))
