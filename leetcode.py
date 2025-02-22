@@ -469,7 +469,6 @@ def intToRoman(num: int) -> str:
     digit_len = int(str(math.log10(num) + 1).split('.')[0])
     for i in range(1, digit_len+1):
         i_digit = num % (10**i)
-        print(s, i_digit)
         if i_digit == 0:
             continue
         f = value_convert.get(i_digit)
@@ -490,8 +489,6 @@ def intToRoman(num: int) -> str:
         num-=i_digit
     return s
 
-print(intToRoman(11))
-
 # Q274 - M
 def hIndex(citations: list[int]) -> int:
     i = 0
@@ -509,3 +506,23 @@ def hIndex(citations: list[int]) -> int:
         i+=1
     return h-1
     
+# Q125 - E
+def isPalindrome(s: str) -> bool:
+    s = s.lower()
+    i = 0
+    j = len(s)-1
+    while i<j:
+        if s[i].isalpha() and s[j].isalpha():
+            if s[i] != s[j]:
+                return False
+            i+=1
+            j-=1
+        elif not s[i].isalpha():
+            i+=1
+        else:
+            j-=1
+    return True
+
+a = "AAA"
+print(a.lower().upper())
+print('0'.isalnum())
