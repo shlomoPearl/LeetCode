@@ -540,18 +540,33 @@ def maxArea(height: list[int]) -> int:
             max_area = (j-i) * min(height[i], height[j])
     return max_area
 
+# Q15 - M
+def threeSum(nums: list[int]) -> list[list[int]]:
+    ans = []
+    sum_to_0 = {}
+    for i, n in enumerate(nums):
+        f_to_0 = sum_to_0.get(0-n)
+        if f_to_0:
+            sum_to_0[0-n].append(i)
+        else:
+            sum_to_0[0-n] = [i]
+    for i in range(0, len(nums)):
+        for j in range(i+1, len(nums)-1):
+            two = nums[i]+nums[j]
+            three = sum_to_0.get(two)
+            if three != None and len(three) >= 1:
+                for k in three:
+                    if k > j:
+                        ans.append([nums[i],nums[j],nums[k]])
+    return ans
 
-a1 = [1,8,6,2,5,4,8,3,7]
-a2 = [1,8,6,2,5,4,8,25,7]
-a3 = [1,1]
-a4 = [1,2,1]
-a5 = [1,2,3,1000,9]
-a6 = [8,20,1,2,3,4,5,6]
-a7 = [1,2,3,4,5,25,24,3,4]
-print(maxArea(a1) == 49)
-print(maxArea(a2) == 49)
-print(maxArea(a3) == 1)
-print(maxArea(a4) == 2)
-print(maxArea(a5) == 9)
-print(maxArea(a6) == 42)
-print(maxArea(a7) == 24)
+
+a1 = [-1,0,1,2,-1,-4]
+print(threeSum(a1))
+# a = set()
+# a.add([-1,-1,2])
+# a.add(sorted([1,-1,0]))
+# a.add(sorted([-1,0,1]))
+# print(a)
+
+
