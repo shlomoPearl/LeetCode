@@ -557,12 +557,22 @@ def threeSum(nums: list[int]) -> list[list[int]]:
             if three != None and len(three) >= 1:
                 for k in three:
                     if k > j:
-                        ans.append([nums[i],nums[j],nums[k]])
+                        ans.append(sorted([nums[i],nums[j],nums[k]]))
+    for i in range(len(ans)-1):
+        j = i + 1
+        while j < len(ans):
+            if ans[i][0] == ans[j][0] and ans[i][1] == ans[j][1] and ans[i][2] == ans[j][2]:
+                ans.pop(j)
+                continue
+            j+=1
     return ans
 
 
 a1 = [-1,0,1,2,-1,-4]
+a2 = [0,3,0,1,1,-1,-5,-5,3,-3,-3,0]
 print(threeSum(a1))
+print(threeSum(a2))
+
 # a = set()
 # a.add([-1,-1,2])
 # a.add(sorted([1,-1,0]))
