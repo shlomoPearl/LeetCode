@@ -512,17 +512,51 @@ def isPalindrome(s: str) -> bool:
     i = 0
     j = len(s)-1
     while i<j:
-        if s[i].isalpha() and s[j].isalpha():
+        if s[i].isalnum() and s[j].isalnum():
             if s[i] != s[j]:
                 return False
             i+=1
             j-=1
-        elif not s[i].isalpha():
+        elif not s[i].isalnum():
             i+=1
         else:
             j-=1
     return True
 
-a = "AAA"
-print(a.lower().upper())
-print('0'.isalnum())
+# Q11 - M
+def maxArea(height: list[int]) -> int:
+    i_r = 0
+    h_r = 0
+    for i,h in enumerate(height[:-1]):
+        if h*(len(height)-1-i) > h_r * ((len(height)-1-i_r)):
+            i_r = i
+            h_r = h
+    # print(i_r, h_r)
+    i_l = 1
+    h_l = 0
+    for i,h in enumerate(height[i_r+1:]):
+        if min(h_r,h)*(i+i_r+1) >= i_l*h_l:
+            i_l = i + i_r + 1
+            h_l = min(h_r,h)
+    for i, h in enumerate(height[:i_r]):
+        if (i_l-i) * (min(h_l,h, h_r)) > (i_l-i_r) * (min(h_l,h_r)):
+            i_r = i
+            h_r = h
+    for i, h in enumerate(height[i_l+1:]):
+        if (i_l+i+1 - i_r) * (min(h_r,h,h_l)) > (i_l-i_r) * (min(h_l,h_r)):
+            i_l = i + 1 + i_l
+            h_l = h
+    return (i_l-i_r) * (min(h_l,h_r))
+
+a1 = [1,8,6,2,5,4,8,3,7]
+a2 = [1,8,6,2,5,4,8,25,7]
+a3 = [1,1]
+a4 = [1,2,1]
+a5 = [1,2,3,1000,9]
+a6 = [8,20,1,2,3,4,5,6]
+print(maxArea(a1))
+print(maxArea(a2))
+print(maxArea(a3))
+print(maxArea(a4))
+print(maxArea(a5))
+print(maxArea(a6))
