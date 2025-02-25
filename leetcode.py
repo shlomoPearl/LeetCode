@@ -567,16 +567,38 @@ def threeSum(nums: list[int]) -> list[list[int]]:
             j+=1
     return ans
 
+# Q42 - H
+def trap(height: list[int]) -> int:
+    max_water = 0 
+    i = 0
+    while i < len(height):
+        if height[i] == 0:
+            i+=1
+        else:
+            tmp_water = 0
+            tmp_i = i+1
+            while tmp_i < len(height) and height[tmp_i] < height[i]:
+                tmp_water+= (height[i] - height[tmp_i])
+                tmp_i+=1
+            if tmp_i < len(height) and height[tmp_i] >= height[i]:
+                max_water+=tmp_water
+                i = tmp_i
+                print(max_water)
+            elif tmp_i == len(height):
+                tmp_i-=1
+                if height[i]-height[tmp_i]>0:
+                    tmp_water -= (height[i]-height[tmp_i])* (tmp_i-i)
+                    max_water += tmp_water
+                    return max_water
+                i+=1
+            else:
+                i+=1
+    return max_water
 
-a1 = [-1,0,1,2,-1,-4]
-a2 = [0,3,0,1,1,-1,-5,-5,3,-3,-3,0]
-print(threeSum(a1))
-print(threeSum(a2))
 
-# a = set()
-# a.add([-1,-1,2])
-# a.add(sorted([1,-1,0]))
-# a.add(sorted([-1,0,1]))
-# print(a)
 
+h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
+h2 = [4,2,3]
+print(trap(h1))
+# print(trap(h2))    
 
