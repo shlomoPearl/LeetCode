@@ -104,11 +104,8 @@ def maxProfit_1(prices: list[int]) -> int:
         while(j < len(prices) and prices[j] - prices[i] <= 0):
             i+=1
             j+=1
-        # max_profit = prices[j] - prices[i]
-        # j+=1
         while(j < len(prices) and prices[j] - prices[i] > 0):
             if(prices[j] - prices[i] > max_profit):
-                # print(prices[j] ,prices[i], i)
                 max_profit = prices[j] - prices[i]
             j+=1
         i=j
@@ -116,9 +113,7 @@ def maxProfit_1(prices: list[int]) -> int:
     return max_profit
 
 def binary_search(nums, t, offset=0):
-    print(nums, offset)
     if(nums[len(nums)//2] == t or len(nums) == 1):
-        # print(offset)
         return math.ceil(len(nums)/2) + offset
     elif(nums[len(nums)//2] < t):
         return binary_search(nums[len(nums)//2:], t, offset + math.ceil(len(nums)/2))
@@ -141,7 +136,6 @@ def timeConversion(s):
     else:
         s = s.replace('PM', '').split(':')
         s[0] = str(int(s[0])+12)
-        print(s[0])
         if s[0] == '24':
             s[0] = '12'
     return s[0]+':'+s[1]+':'+s[2]
@@ -285,7 +279,6 @@ def jump(nums: list[int]) -> int:
         i = max_j_i
         jump = nums[i]
         count_ler+=1
-        print(i, jump)
     return count_ler
 
 def singleNumber(nums: list[int]) -> int:
@@ -583,7 +576,6 @@ def trap(height: list[int]) -> int:
             if tmp_i < len(height) and height[tmp_i] >= height[i]:
                 max_water+=tmp_water
                 i = tmp_i
-                print(max_water)
             elif tmp_i == len(height):
                 tmp_i-=1
                 if height[i]-height[tmp_i]>0:
