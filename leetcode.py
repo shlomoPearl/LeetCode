@@ -568,29 +568,40 @@ def trap(height: list[int]) -> int:
         if height[i] == 0:
             i+=1
         else:
-            tmp_water = 0
-            tmp_i = i+1
-            while tmp_i < len(height) and height[tmp_i] < height[i]:
-                tmp_water+= (height[i] - height[tmp_i])
-                tmp_i+=1
-            if tmp_i < len(height) and height[tmp_i] >= height[i]:
-                max_water+=tmp_water
-                i = tmp_i
-            elif tmp_i == len(height):
-                tmp_i-=1
-                if height[i]-height[tmp_i]>0:
-                    tmp_water -= (height[i]-height[tmp_i])* (tmp_i-i)
-                    max_water += tmp_water
-                    return max_water
-                i+=1
-            else:
-                i+=1
+            pass
     return max_water
 
+# Q1 - E
+def twoSum(nums: list[int], target: int) -> list[int]:
+    two_for_t = {}
+    for i,n in enumerate(nums):
+        two_for_t[n] = i
+    for i,n in enumerate(nums):
+        if two_for_t.get(target-n) != None:
+            sec = two_for_t.get(target-n)
+            if sec != i:
+                return [i, sec]
 
 
-h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
-h2 = [4,2,3]
-print(trap(h1))
+def isHappy(n: int) -> bool:
+    mem_cycle = {}
+    cycle= False
+    while not cycle:
+        square_sum = 0
+        for digit in str(n):
+            square_sum+=int(digit)**2
+        if square_sum == 1:
+            return True
+        found = mem_cycle.get(square_sum)
+        if found != None:
+            return False
+        mem_cycle[square_sum] = 1
+        n = square_sum
+
+
+print(isHappy(2))
+# h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
+# h2 = [4,2,3]
+# print(trap(h1))
 # print(trap(h2))    
 
