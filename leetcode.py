@@ -612,7 +612,19 @@ def isAnagram(s: str, t: str) -> bool:
             return False
     return True
 
-print(isAnagram('car','cat'))
+# Q219 - E
+def containsNearbyDuplicate(nums: list[int], k: int) -> bool:
+    dup = {}
+    for i, n in enumerate(nums):
+        exist = dup.get(n)
+        if not exist:
+            dup[n].append(i)
+        else:
+            dup[n] = [i]
+
+a = None
+print(not a)
+
 # h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
 # h2 = [4,2,3]
 # print(trap(h1))
