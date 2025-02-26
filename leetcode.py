@@ -582,7 +582,7 @@ def twoSum(nums: list[int], target: int) -> list[int]:
             if sec != i:
                 return [i, sec]
 
-
+# Q202 - E
 def isHappy(n: int) -> bool:
     mem_cycle = {}
     cycle= False
@@ -598,8 +598,21 @@ def isHappy(n: int) -> bool:
         mem_cycle[square_sum] = 1
         n = square_sum
 
+# Q242 - E
+def isAnagram(s: str, t: str) -> bool:
+    if len(s) != len(t):return False
+    letters = {}
+    for i in range(len(s)):
+        count = letters.get(s[i],0)
+        letters[s[i]] = count+1
+        count = letters.get(t[i],0)
+        letters[t[i]] = count-1
+    for v in letters.values():
+        if v:
+            return False
+    return True
 
-print(isHappy(2))
+print(isAnagram('car','cat'))
 # h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
 # h2 = [4,2,3]
 # print(trap(h1))
