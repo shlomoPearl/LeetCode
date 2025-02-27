@@ -536,28 +536,21 @@ def maxArea(height: list[int]) -> int:
 # Q15 - M
 def threeSum(nums: list[int]) -> list[list[int]]:
     ans = []
-    sum_to_0 = {}
-    for i, n in enumerate(nums):
-        f_to_0 = sum_to_0.get(0-n)
-        if f_to_0:
-            sum_to_0[0-n].append(i)
-        else:
-            sum_to_0[0-n] = [i]
-    for i in range(0, len(nums)):
-        for j in range(i+1, len(nums)-1):
-            two = nums[i]+nums[j]
-            three = sum_to_0.get(two)
-            if three != None and len(three) >= 1:
-                for k in three:
-                    if k > j:
-                        ans.append(sorted([nums[i],nums[j],nums[k]]))
-    for i in range(len(ans)-1):
-        j = i + 1
-        while j < len(ans):
-            if ans[i][0] == ans[j][0] and ans[i][1] == ans[j][1] and ans[i][2] == ans[j][2]:
-                ans.pop(j)
-                continue
-            j+=1
+    nums = sorted(nums)
+    i = 0
+    j = len(nums)-1
+    k = i+1
+    while (i < j):
+        if nums[i] + nums[k] + nums[j] == 0:
+            ans.append(nums[i] + nums[k] + nums[j])
+            k+=1
+            while(k < j and nums[k] == nums[k-1]):
+                k+=1
+        elif nums[i] + nums[k] + nums[j] > 0:
+            j-=1
+        elif nums[i] + nums[k] + nums[j] < 0:
+            i+=1
+            k = i+1
     return ans
 
 # Q42 - H
@@ -617,14 +610,81 @@ def containsNearbyDuplicate(nums: list[int], k: int) -> bool:
     dup = {}
     for i, n in enumerate(nums):
         exist = dup.get(n)
-        if not exist:
-            dup[n].append(i)
+        if exist is None:
+            dup[n] = i
         else:
-            dup[n] = [i]
+            nearby = abs(i - exist)
+            if nearby <= k:
+                return True
+            dup[n] = i
+    return False
 
-a = None
-print(not a)
+# Q290 - E
+# find if there is bijection functon from pattern to s
+def wordPattern(pattern: str, s: str) -> bool:
+    src = {}
+    dst = {}
+    s = s.split(' ')
+    if len(s) != len(pattern): return False
+    for i, p in enumerate(pattern):
+        exist_s = src.get(p)
+        if exist_s is None:
+            src[p] = s[i]
+        elif exist_s != s[i]: # its not function - 1 goes to 2 diffrent item in dst 
+            return False
+        exist_d = dst.get(s[i])
+        if exist_d is None: # its first map on p in pattern
+            dst[s[i]] = p
+        elif p != exist_d: # its not bijection - 2 diffrent items goes to 1 item
+            return False
+    return True
 
+# Q128 - M
+def longestConsecutive(nums: list[int]) -> int:
+    max_consecutive = 0
+    consecutive = set()
+    for n in nums:
+        consecutive.add(n)
+    i = 0
+    while i < len(consecutive):
+        print(i, consecutive)
+        up = False
+        down = False
+        if len({nums[i]+1}.intersection(consecutive)) > 0:
+            up = True
+        if len({nums[i]-1}.intersection(consecutive)) > 0:
+            down = True
+        counter = 0
+        offset_i = 1
+        while up:
+            if len({nums[i]+offset_i}.intersection(consecutive)) > 0:
+                consecutive.remove(nums[i]+offset_i)
+                offset_i+=1
+                counter+=1
+            else:
+                up = False  
+        offset_i = 1
+        while down:
+            if len({nums[i]-offset_i}.intersection(consecutive)) > 0:
+                consecutive.remove(nums[i]-offset_i)
+                offset_i+=1
+                counter+=1
+            else:
+                down = False
+        if counter+1 > max_consecutive:
+            max_consecutive = counter+1
+        i+=1
+    return max_consecutive
+    
+
+a = [100,4,200,1,3,2]
+
+b = [-3,-9,-3,4,-3,-9,-3,-6,8,-3,0,1,5,-1,-4,0,-7,1,5]
+# print(longestConsecutive(a))
+print(longestConsecutive(b))
+# print(sorted(b))
+
+# print(b.intersection(a) ==1)
 # h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
 # h2 = [4,2,3]
 # print(trap(h1))
