@@ -645,42 +645,40 @@ def longestConsecutive(nums: list[int]) -> int:
     consecutive = set()
     for n in nums:
         consecutive.add(n)
-    i = 0
-    while i < len(consecutive):
-        print(i, consecutive)
+    while consecutive:
+        item = consecutive.pop()
         up = False
         down = False
-        if len({nums[i]+1}.intersection(consecutive)) > 0:
+        if len({item+1}.intersection(consecutive)) > 0:
             up = True
-        if len({nums[i]-1}.intersection(consecutive)) > 0:
+        if len({item-1}.intersection(consecutive)) > 0:
             down = True
         counter = 0
         offset_i = 1
         while up:
-            if len({nums[i]+offset_i}.intersection(consecutive)) > 0:
-                consecutive.remove(nums[i]+offset_i)
+            if len({item+offset_i}.intersection(consecutive)) > 0:
+                consecutive.remove(item+offset_i)
                 offset_i+=1
                 counter+=1
             else:
                 up = False  
         offset_i = 1
         while down:
-            if len({nums[i]-offset_i}.intersection(consecutive)) > 0:
-                consecutive.remove(nums[i]-offset_i)
+            if len({item-offset_i}.intersection(consecutive)) > 0:
+                consecutive.remove(item-offset_i)
                 offset_i+=1
                 counter+=1
             else:
                 down = False
         if counter+1 > max_consecutive:
             max_consecutive = counter+1
-        i+=1
     return max_consecutive
     
 
 a = [100,4,200,1,3,2]
 
 b = [-3,-9,-3,4,-3,-9,-3,-6,8,-3,0,1,5,-1,-4,0,-7,1,5]
-# print(longestConsecutive(a))
+print(longestConsecutive(a))
 print(longestConsecutive(b))
 # print(sorted(b))
 
