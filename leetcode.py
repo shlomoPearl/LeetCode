@@ -674,14 +674,27 @@ def longestConsecutive(nums: list[int]) -> int:
             max_consecutive = counter+1
     return max_consecutive
     
+# Q49 - M
+def groupAnagrams(strs: list[str]) -> list[list[str]]:
+    group = {}
+    i = 0
+    while i < len(strs):
+        exist  = False
+        for k in group.keys():
+            if isAnagram(k, strs[i]):
+                group[k].append(strs[i])
+                exist = True
+                break
+        if not exist:
+            group[strs[i]] = [strs[i]]
+        i += 1
+    return list(group.values())
+        
 
-a = [100,4,200,1,3,2]
-
-b = [-3,-9,-3,4,-3,-9,-3,-6,8,-3,0,1,5,-1,-4,0,-7,1,5]
-print(longestConsecutive(a))
-print(longestConsecutive(b))
-# print(sorted(b))
-
+s1 = ["eat","tea","tan","ate","nat","bat"]
+# print(s1.pop())
+# print(s1.pop())
+print(groupAnagrams(s1))
 # print(b.intersection(a) ==1)
 # h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
 # h2 = [4,2,3]
