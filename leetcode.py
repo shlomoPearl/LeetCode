@@ -679,19 +679,21 @@ def groupAnagrams(strs: list[str]) -> list[list[str]]:
     group = {}
     i = 0
     while i < len(strs):
-        exist  = False
-        for k in group.keys():
-            if isAnagram(k, strs[i]):
-                group[k].append(strs[i])
-                exist = True
-                break
-        if not exist:
-            group[strs[i]] = [strs[i]]
-        i += 1
+        s = "".join(sorted(strs[i]))
+        exist  = group.get(s)
+        if exist is None:
+            group[s] = [strs[i]]
+        else:
+            group[s].append(strs[i])
+        i+=1
     return list(group.values())
         
 
 s1 = ["eat","tea","tan","ate","nat","bat"]
+# s = "zmgda"
+# s = sorted(s)
+# s = "".join(s)
+# print(s)
 # print(s1.pop())
 # print(s1.pop())
 print(groupAnagrams(s1))
