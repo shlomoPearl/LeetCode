@@ -555,14 +555,18 @@ def threeSum(nums: list[int]) -> list[list[int]]:
 
 # Q42 - H
 def trap(height: list[int]) -> int:
-    max_water = 0 
-    i = 0
-    while i < len(height):
-        if height[i] == 0:
-            i+=1
+    max_water = 0
+    i = 0 
+    while i < len(height)-1:
+        if height[i] > 0:
+            pass    
         else:
-            pass
+            i+=1
     return max_water
+h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
+h2 = [4,2,3]
+# print(trap(h1))
+# print(trap(h2))    
 
 # Q1 - E
 def twoSum(nums: list[int], target: int) -> list[int]:
@@ -688,18 +692,20 @@ def groupAnagrams(strs: list[str]) -> list[list[str]]:
         i+=1
     return list(group.values())
         
+def minSubArrayLen(target: int, nums: list[int]) -> int:
+    i = 1
+    while i <= len(nums):
+        j = 0
+        sum = 0
+        while j+i <= len(nums):
+            for n in nums[j:j+i]:
+                sum += n
+            if sum >= target:
+                return i
+            j+=1
+            sum = 0
+        i+=1
+    return 0
 
-s1 = ["eat","tea","tan","ate","nat","bat"]
-# s = "zmgda"
-# s = sorted(s)
-# s = "".join(s)
-# print(s)
-# print(s1.pop())
-# print(s1.pop())
-print(groupAnagrams(s1))
-# print(b.intersection(a) ==1)
-# h1 = [0,1,0,2,1,0,1,3,2,1,2,1]
-# h2 = [4,2,3]
-# print(trap(h1))
-# print(trap(h2))    
-
+a1 = [4,1,1,0,3]
+print(minSubArrayLen(6,a1))
