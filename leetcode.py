@@ -558,9 +558,6 @@ def threeSum(nums: list[int]) -> list[list[int]]:
             i+=1
     return ans
 
-s1 = [-1,0,1,2,-1,-4]
-print(threeSum(s1))
-
 # Q42 - H
 def trap(height: list[int]) -> int:
     max_water = 0
@@ -731,23 +728,30 @@ def summaryRanges(nums: list[int]) -> list[str]:
     return ranges
 
 def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
-    course_g = {}
-    for p in prerequisites:
-        if p[0] == p[1]:
+    course_g = {i:[] for i in range(numCourses)}
+    cycle_c = set()
+    for pre in prerequisites:
+        if pre[0] in course_g:
+            course_g[pre[0]].append(pre[1])
+        else:
+            course_g[pre[0]] = [pre[1]]
+    def dfs_course(course):
+        if course in cycle_c:
             return False
-        c_g = course_g.get(p[1])
-        if c_g is None:
-            course_g[p[1]] = set()
-        course_g[p[1]].add(p[0])
-        c_g = course_g.get(p[0])
-        if c_g is not None and p[1] in c_g:
+        if not course_g[course]:
+            return True
+        cycle_c.add(course)
+        for c in course_g[course]:
+            if not dfs_course(c):
+                return False
+        cycle_c.remove(course)
+        course_g[course] = []
+        return True
+
+    for i in range(numCourses):
+        if not dfs_course(i):
             return False
-        while c_g is not None:
-            course_g[p[1]].update(c_g)
-            # c_g = 
-        print(course_g)
     return True
 
-
-# a = [[0,1],[2,3],[1,2],[3,0]]
-# print(canFinish(4,a))
+a = [[1,0]]
+print(canFinish(2,a))
