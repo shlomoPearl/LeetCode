@@ -538,20 +538,28 @@ def threeSum(nums: list[int]) -> list[list[int]]:
     ans = []
     nums = sorted(nums)
     i = 0
-    j = len(nums)-1
-    k = i+1
-    while (i < j):
-        if nums[i] + nums[k] + nums[j] == 0:
-            ans.append(nums[i] + nums[k] + nums[j])
-            k+=1
-            while(k < j and nums[k] == nums[k-1]):
-                k+=1
-        elif nums[i] + nums[k] + nums[j] > 0:
-            j-=1
-        elif nums[i] + nums[k] + nums[j] < 0:
+    print(nums)
+    while i < len(nums)-2:
+        l = i+1
+        r = len(nums)-1
+        first = nums[i]
+        while l < r:
+            if first + nums[r] + nums[l] == 0:
+                ans.append([first,nums[r],nums[l]])
+                l+=1
+                while l < r-1 and nums[l] == nums[l+1]:
+                    l+=1
+            elif first + nums[r] + nums[l] > 0:
+                r-=1
+            else:
+                l+=1
+        i+=1
+        while i < len(nums)-2 and nums[i-1] == nums[i]:
             i+=1
-            k = i+1
     return ans
+
+s1 = [-1,0,1,2,-1,-4]
+print(threeSum(s1))
 
 # Q42 - H
 def trap(height: list[int]) -> int:
@@ -707,5 +715,39 @@ def minSubArrayLen(target: int, nums: list[int]) -> int:
         i+=1
     return 0
 
-a1 = [4,1,1,0,3]
-print(minSubArrayLen(6,a1))
+def summaryRanges(nums: list[int]) -> list[str]:
+    ranges = []
+    i = 0
+    while i < len(nums):
+        start = nums[i]
+        while i < len(nums)-1 and nums[i] - nums[i+1] == -1:
+            i+=1
+        if start == nums[i]:
+            ranges.append(f'{start}')
+        else:
+            ranges.append(f'{start}->{nums[i]}')
+        i+=1
+    
+    return ranges
+
+def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
+    course_g = {}
+    for p in prerequisites:
+        if p[0] == p[1]:
+            return False
+        c_g = course_g.get(p[1])
+        if c_g is None:
+            course_g[p[1]] = set()
+        course_g[p[1]].add(p[0])
+        c_g = course_g.get(p[0])
+        if c_g is not None and p[1] in c_g:
+            return False
+        while c_g is not None:
+            course_g[p[1]].update(c_g)
+            # c_g = 
+        print(course_g)
+    return True
+
+
+# a = [[0,1],[2,3],[1,2],[3,0]]
+# print(canFinish(4,a))
