@@ -1,5 +1,6 @@
 import math
 from time import sleep
+from typing import List
 
 def isValid(s: str) -> bool:
     q = []
@@ -727,6 +728,7 @@ def summaryRanges(nums: list[int]) -> list[str]:
     
     return ranges
 
+# Q207 - M
 def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
     course_g = {i:[] for i in range(numCourses)}
     cycle_c = set()
@@ -753,5 +755,32 @@ def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
             return False
     return True
 
-a = [[1,0]]
-print(canFinish(2,a))
+# Q198 - M
+def rob(nums: list[int]) -> int:
+    opt1 = 0
+    opt2 = 0
+    for i in range(len(nums)):
+        tmp = max(opt1 + nums[i], opt2)
+        opt1 = opt2
+        opt2 = tmp
+    return opt2
+
+def wordBreak(s: str, wordDict: list[str]) -> bool:
+    # wordDict = sorted(wordDict)
+    for w in wordDict:
+        # target = wordDict.pop()
+        i = 0
+        f = False
+        while i < len(s):
+            if s[i:i+len(w)] == w:
+                # s = s[:i] + s[i+len(target):]
+                # i += len(target)
+                f = True
+            i+=1
+        if not f:
+            return False
+    return True
+
+s = 'dogs'
+d = ["dog","s","gs"]
+print(wordBreak(s,d))
