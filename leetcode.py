@@ -765,22 +765,57 @@ def rob(nums: list[int]) -> int:
         opt2 = tmp
     return opt2
 
+# Q139 - M
 def wordBreak(s: str, wordDict: list[str]) -> bool:
-    # wordDict = sorted(wordDict)
-    for w in wordDict:
-        # target = wordDict.pop()
-        i = 0
-        f = False
-        while i < len(s):
-            if s[i:i+len(w)] == w:
-                # s = s[:i] + s[i+len(target):]
-                # i += len(target)
-                f = True
-            i+=1
-        if not f:
-            return False
-    return True
+    dp = [False] * (len(s)+1)
+    dp[-1]=True
+    i = len(s)-1
+    while i >= 0:
+        for w in wordDict:
+            if (i+len(w)) <= len(s) and s[i:i+len(w)] == w:
+                dp[i] = dp[i+len(w)]
+            if dp[i]:
+                break
+        i-=1
+    return dp[0]
 
-s = 'dogs'
-d = ["dog","s","gs"]
-print(wordBreak(s,d))
+
+# Q5 - M
+def longestPalindrome(s: str) -> str:
+    res = ''
+    for i in range(len(s)):
+        l = i
+        r = i
+        while l >= 0 and r < len(s) and s[r] == s[l]:
+            l-=1
+            r+=1
+        if len(s[l+1:r]) > res:
+            res = s[l+1:r]
+        l = i
+        r = i+1
+        while l >= 0 and r < len(s) and s[r] == s[l]:
+            l-=1
+            r+=1
+        if len(s[l+1:r]) > res:
+            res = s[l+1:r]
+    return res
+
+# Q647 - M
+def countSubstrings(s: str) -> int:
+    counter = 0
+    for i in range(len(s)):
+        l = i
+        r = i
+        while l >= 0 and r < len(s) and s[r] == s[l]:
+            l-=1
+            r+=1
+            counter+=1 
+        l = i
+        r = i+1
+        while l >= 0 and r < len(s) and s[r] == s[l]:
+            l-=1
+            r+=1
+            counter+=1
+    return counter
+
+print(countSubstrings('aaaa'))
