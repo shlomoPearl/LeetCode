@@ -818,4 +818,75 @@ def countSubstrings(s: str) -> int:
             counter+=1
     return counter
 
-print(countSubstrings('aaaa'))
+# Q322 - M
+def coinChange(coins: list[int], amount: int) -> int:
+    dp = [amount + 1] * (amount+1)
+    dp[0] = 0
+    for i in range(1, amount+1):
+        for c in coins:
+            if i - c >= 0:
+                dp[i] = min(dp[i], 1 + dp[i-c])
+    if dp[-1] > amount:
+        return -1
+    return dp[-1]
+
+def longestCommonSubsequence(text1: str, text2: str) -> int:
+    counter1 = {}
+    counter2 = {}
+    common = 0
+    for c in text1:
+        if c in counter1:
+            counter1[c] += 1
+        else:
+            counter1[c] = 1
+    for c in text2:
+        if c in counter2:
+            counter2[c] += 1
+        else:
+            counter2[c] = 1
+    if len(text1) < len(text2):
+        for k in counter1.keys():
+            if k in counter2:
+                common += min(counter1[k], counter2[k])
+    else:
+        for k in counter2.keys():
+            if k in counter1:
+                common += min(counter1[k], counter2[k])
+    return common    
+    
+# Q57 - M
+def insert(intervals: list[list[int]], newInterval: list[int]) -> list[list[int]]:
+    if intervals == []:
+        return [newInterval]
+    if newInterval == []:
+        return intervals
+    i = 0
+    while i < len(intervals):
+        if intervals[i][1] < newInterval[0]:
+            i += 1
+        elif intervals[i][0] > newInterval[1]:
+            return intervals[0:i] + [newInterval] + intervals[i:]
+        elif intervals[i][0] <= newInterval[0] and intervals[i][1] >= newInterval[1]:
+            return intervals
+        else:
+            j = i
+            while j < len(intervals) and intervals[j][0] <= newInterval[1]:
+                j+=1
+            # print('******')
+            return intervals[0:i] + [[min(intervals[i][0], newInterval[0]),max(newInterval[1], intervals[j-1][1])]]+ intervals[j:]
+    return intervals + [newInterval]
+
+a1 = [[1,3],[6,9]]
+b1 =[2,5]
+a2 = [[1,2],[3,5],[6,7],[8,10],[12,16]]
+b2 = [4,8]
+a3 = [[1,5]]
+b3 = [6,8]
+b4 = [0,3]
+a4 = [[3,5],[12,15]]
+b4 = [6,6]
+print(insert(a1,b1))
+print(insert(a2,b2))
+print(insert(a3,b3))
+print(insert(a3,b4))
+print(insert(a4,b4))
